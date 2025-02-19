@@ -249,6 +249,7 @@ startGame = () => {
     score = 0;
     availableQuestions = [...questions];
     console.log(availableQuestions);
+    getNewQuestion();
 };
 
 getNewQuestion = () => {
