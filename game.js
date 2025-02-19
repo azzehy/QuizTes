@@ -242,13 +242,25 @@ let questions = [
     }
 ];
 const CORRECT_BONUS = 2;
-const MAX_QUESTIONS = 10;
+const MAX_QUESTIONS = 5;
 
 startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions];
     console.log(availableQuestions);
-}
+};
+
+getNewQuestion = () => {
+    questionCounter++;
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[questionIndex];
+    question.innerText = currentQuestion.question;
+
+    choices.forEach(choice =>{
+        const number = choice.dataset['number'];
+        choice.innerText = currentQuestion['choice' + number]
+    })
+};
 
 startGame();
