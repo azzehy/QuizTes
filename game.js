@@ -2,7 +2,7 @@ const question = document.getElementById('question');
 const choices = Array.from(document.getElementsByClassName("choice-text"));
 
 let currentQuestion = {};
-let acceptingAnswers = true
+let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
 let availableQuestions = []; 
@@ -257,11 +257,28 @@ getNewQuestion = () => {
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
-
+    // Update each choice button with its corresponding answer
     choices.forEach(choice =>{
-        const number = choice.dataset['number'];
-        choice.innerText = currentQuestion['choice' + number]
-    })
+        const number = choice.dataset['number'];// Get choice number from dataset (1, 2, 3, or 4)
+        choice.innerText = currentQuestion['choice' + number];// Update button text
+    });
+    // Remove the selected question from availableQuestions so it's not repeated
+    availableQuestions.splice(questionIndex, 1);
+
+    acceptingAnswers = true;
 };
+// Add event listeners to each choice button
+choices.forEach(choice => {
+    choice.addEventListener('click', e=>{
+        // If answers are not being accepted, ignore the click
+        if(!acceptingAnswers) return;
+        
+        acceptingAnswers = false;// Prevent multiple clicks while processing
+        const selectedChoice = e.target;// Get the clicked choice
+        const selectedAnswer = selectedChoice.dataset['number'];// Get selected choice number
+
+        getNewQuestion();
+    });
+});
 
 startGame();
